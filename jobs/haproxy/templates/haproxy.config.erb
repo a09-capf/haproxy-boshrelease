@@ -244,6 +244,10 @@ if tcp_proxy["backend_port"]
   backend_port = tcp_proxy["backend_port"]
 end %>
 <% tcp_proxy["backend_servers"].each_with_index do |ip, index| %>
+  <% if tcp_proxy["port"].to_s.include?("-") %>
+        server node<%= index %> <%= ip %> <% if_p("ha_proxy.resolvers") do %> resolvers default <% end %> check port <%= tcp_proxy["check_port"] %> inter 1000
+  <% else %>
         server node<%= index %> <%= ip %>:<%= backend_port %> <% if_p("ha_proxy.resolvers") do %> resolvers default <% end %> check inter 1000
+  <% end %>
 <% end %>
 <% end %>
