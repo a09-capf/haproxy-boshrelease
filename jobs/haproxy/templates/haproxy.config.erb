@@ -238,6 +238,9 @@ backend http-routed-backend-<%= prefix_hash %>
 
 backend tcp-<%= tcp_proxy["name"] %>
     mode tcp
+<% if tcp_proxy["balance"] %>
+    balance <%= tcp_proxy["balance"] %>
+<% end %>
 <%
 backend_port = tcp_proxy["port"]
 if tcp_proxy["backend_port"]
